@@ -1,0 +1,43 @@
+from typing import List, Optional
+from uuid import UUID
+
+from src.domain.schemas.comment_entity import Comment
+from src.ports.driven.repository import CommentRepository
+from src.adapters.driven.base_repository import PostgresBaseRepository
+
+
+class PostgresCommentRepository(PostgresBaseRepository, CommentRepository):
+    def __init__(self, connection_params: dict):
+        super().__init__(connection_params)
+        self.table = "comments"
+
+    def get_all(self) -> List[Comment]:
+        query = f"SELECT * FROM {self.table} ORDER BY created_at DESC"
+        results = self._execute_query(query)
+        return [Comment(**result) for result in results]
+
+    def get_by_id(self, id: UUID) -> Optional[Comment]:
+        query = f"SELECT * FROM {self.table} WHERE id = %s"
+        result = self._execute_single(query, (str(id),))
+        return Comment(**result) if result else None
+
+    def create(self, comment: Comment) -> Comment:
+        result = self._create_entity(self.table, comment)
+        return Comment(**result)
+
+    def update(self, comment: Comment) -> Optional[Comment]:
+        result = self._update_entity(self.table, comment)
+        return Comment(**result) if result else None
+
+    def delete(self, id: UUID) -> bool:
+        return self._delete_entity(self.table, id)
+
+    def get_by_task(self, task_id: UUID) -> List[Comment]:
+        query = f"SELECT * FROM {self.table} WHERE task_id = %s ORDER BY created_at DESC"
+        results = self._execute_query(query, (str(task_id),))
+        return [Comment(**result) for result in results]
+
+    def get_by_author(self, author_id: UUID) -> List[Comment]:
+        query = f"SELECT * FROM {self.table} WHERE author_id = %s ORDER BY created_at DESC"
+        results = self._execute_query(query, (str(author_id),))
+        return [Comment(**result) for result in results]

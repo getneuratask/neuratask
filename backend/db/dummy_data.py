@@ -6,16 +6,21 @@ from typing import List, Dict
 import uuid
 from dateutil.relativedelta import relativedelta
 import json
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 fake = Faker()
 
-# Database connection parameters - you should move these to a config file in production
+# Database connection parameters from environment variables
 DB_PARAMS = {
-    "dbname": "neuratask_db",
-    "user": "neuratask_admin",
-    "password": "root",
-    "host": "localhost",
-    "port": "5432"
+    "dbname": os.getenv("NEURATASK_DB", "neuratask_db"),
+    "user": os.getenv("PGUSER", "postgres"),
+    "password": os.getenv("PGPASSWORD", "postgres"),
+    "host": os.getenv("PGHOST", "localhost"),
+    "port": os.getenv("PGPORT", "5432")
 }
 
 def generate_users(num_users: int = 10) -> List[Dict]:

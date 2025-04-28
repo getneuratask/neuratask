@@ -2,11 +2,12 @@ from datetime import datetime
 from typing import List, Optional
 from uuid import UUID
 
-from src.domain.entities import Task
-from src.application.ports import TaskRepository
+from src.domain.schemas.task_entity import Task
+from src.ports.driven.repository import TaskRepository
+from src.ports.drivers.task_service import TaskService
 
 
-class TaskService:
+class TaskServiceImpl(TaskService):
     def __init__(self, task_repository: TaskRepository):
         self.task_repository = task_repository
     

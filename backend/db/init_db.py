@@ -3,23 +3,22 @@
 init_db.py ── bootstrap script for your local NeuralTask database
 
 Usage:
-    python init_db.py                # uses defaults
-    PGUSER=myuser PGPASSWORD=secret python init_db.py
+    python init_db.py
 
-Environment variables (all optional):
-    NEURATASK_DB ‑ target database name (default: neuratask_db)
-    PGUSER       ‑ PostgreSQL super‑user / role with CREATEDB privilege (default: postgres)
+The configuration is read from the .env file in the backend directory. Required variables:
+    NEURATASK_DB ‑ target database name
+    PGUSER       ‑ PostgreSQL super‑user / role with CREATEDB privilege
     PGPASSWORD   ‑ password for PGUSER
-    PGHOST       ‑ host (default: localhost)
-    PGPORT       ‑ port (default: 5432)
+    PGHOST       ‑ host
+    PGPORT       ‑ port
 
 The script will:
-  1. Create the database if it doesn’t exist.
-  2. Execute the SQL in the sibling file `schema.sql` (taken from your canvas).
+  1. Create the database if it doesn't exist.
+  2. Execute the SQL in the sibling file `schema.sql`.
   3. Run a tiny smoke‑test that inserts one user, one workspace, and one task, then queries them back.
 
 Dependencies:
-    pip install psycopg2‑binary
+    pip install psycopg2‑binary python-dotenv
 """
 from __future__ import annotations
 import os
@@ -35,11 +34,22 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-DB_NAME = os.getenv("NEURATASK_DB", "neuratask_db")
-DB_USER = os.getenv("PGUSER", "postgres")
-DB_PWD = os.getenv("PGPASSWORD", "")
-DB_HOST = os.getenv("PGHOST", "localhost")
-DB_PORT = int(os.getenv("PGPORT", "5432"))
+# Database connection parameters from environment variables
+DB_NAME = os.getenv("NEURATASK_DB")
+DB_USER = os.getenv("PGUSER")
+DB_PWD = os.getenv("PGPASSWORD")
+DB_HOST = os.getenv("PGHOST")
+DB_PORT = os.getenv("PGPORT")
+
+# Validate required environment variables
+if not all([DB_NAME, DB_USER, DB_PWD, DB_HOST, DB_PORT]):
+    sys.exit("❌ Missing required environment variables in .env file - aborting")
+
+try:
+    DB_PORT = int(DB_PORT)
+except ValueError:
+    sys.exit("❌ PGPORT must be a number")
+
 SCHEMA = pathlib.Path(__file__).with_name("schema.sql")
 
 if not SCHEMA.exists():
