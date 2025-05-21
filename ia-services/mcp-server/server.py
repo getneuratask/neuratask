@@ -78,6 +78,6 @@ def analyze_api_structure(base_url: str = "http://localhost:8000") -> Dict[str, 
     """
     docs = api_structure_service.fetch_openapi_documentation(base_url)
     return api_structure_service.analyze_api_structure(docs)
-    return api_structure_service.analyze_api_structure(docs)
+    
 
 
