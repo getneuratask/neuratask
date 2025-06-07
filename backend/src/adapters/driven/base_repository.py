@@ -11,27 +11,38 @@ class PostgresBaseRepository:
     def _get_connection(self):
         return psycopg2.connect(**self.connection_params)
     
-    def _execute_query(self, query: str, params: tuple = None) -> List[dict]:
+    def _execute_query(self, query: str, params: Optional[tuple] = None) -> List[dict]:
         with self._get_connection() as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 cur.execute(query, params)
                 if cur.description:
-                    return cur.fetchall()
+                    return [dict(row) for row in cur.fetchall()]
                 return []
     
-    def _execute_single(self, query: str, params: tuple = None) -> Optional[dict]:
+    def _execute_single(self, query: str, params: Optional[tuple] = None) -> Optional[dict]:
         results = self._execute_query(query, params)
         return results[0] if results else None
     
-    def _create_entity(self, table: str, entity: BaseModel) -> dict:
+    def _prepare_data(self, entity: BaseModel) -> dict:
+        """Convert entity data, handling UUID serialization"""
         data = entity.model_dump()
+        for key, value in data.items():
+            if isinstance(value, UUID):
+                data[key] = str(value)
+        return data
+    
+    def _create_entity(self, table: str, entity: BaseModel) -> dict:
+        data = self._prepare_data(entity)
         columns = ', '.join(data.keys())
         values = ', '.join(['%s'] * len(data))
         query = f"INSERT INTO {table} ({columns}) VALUES ({values}) RETURNING *"
-        return self._execute_single(query, tuple(data.values()))
+        result = self._execute_single(query, tuple(data.values()))
+        if result is None:
+            raise Exception(f"Failed to create entity in {table}")
+        return result
     
     def _update_entity(self, table: str, entity: BaseModel) -> Optional[dict]:
-        data = entity.model_dump()
+        data = self._prepare_data(entity)
         id_value = data.pop('id')
         if not data:
             return None
@@ -43,5 +54,8 @@ class PostgresBaseRepository:
     
     def _delete_entity(self, table: str, id: UUID) -> bool:
         query = f"DELETE FROM {table} WHERE id = %s"
-        self._execute_query(query, (str(id),))
-        return True
+        try:
+            self._execute_query(query, (str(id),))
+            return True
+        except Exception:
+            return False

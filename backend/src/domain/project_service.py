@@ -3,8 +3,8 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.project_entity import Project
-from src.ports.driven.repository import ProjectRepository
-from src.ports.drivers.task_service import ProjectService
+from src.ports.driven.project_repository import ProjectRepository
+from src.ports.drivers.project_service import ProjectService
 
 
 class ProjectServiceImpl(ProjectService):

@@ -3,8 +3,8 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.user_entity import User
-from src.ports.driven.repository import UserRepository
-from src.ports.drivers.task_service import UserService
+from src.ports.driven.user_repository import UserRepository
+from src.ports.drivers.user_service import UserService
 
 
 class UserServiceImpl(UserService):
@@ -19,6 +19,9 @@ class UserServiceImpl(UserService):
 
     def get_user_by_auth0_sub(self, auth0_sub: str) -> Optional[User]:
         return self.user_repository.get_by_auth0_sub(auth0_sub)
+    
+    def get_user_by_email(self, email: str) -> Optional[User]:
+        return self.user_repository.get_by_email(email)
     
     def create_user(self, user: User) -> User:
         return self.user_repository.create(user)

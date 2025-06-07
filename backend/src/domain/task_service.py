@@ -3,7 +3,7 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.task_entity import Task
-from src.ports.driven.repository import TaskRepository
+from src.ports.driven.task_repository import TaskRepository
 from src.ports.drivers.task_service import TaskService
 
 
@@ -16,6 +16,15 @@ class TaskServiceImpl(TaskService):
     
     def get_task_by_id(self, task_id: UUID) -> Optional[Task]:
         return self.task_repository.get_by_id(task_id)
+    
+    def get_tasks_by_project(self, project_id: UUID) -> List[Task]:
+        return self.task_repository.get_by_project_id(project_id)
+    
+    def get_tasks_by_assigned_user(self, user_id: UUID) -> List[Task]:
+        return self.task_repository.get_by_assigned_user(user_id)
+    
+    def get_subtasks(self, parent_task_id: UUID) -> List[Task]:
+        return self.task_repository.get_by_parent_task(parent_task_id)
     
     def create_task(self, task: Task) -> Task:
         return self.task_repository.create(task)

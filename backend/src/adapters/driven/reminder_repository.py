@@ -3,7 +3,7 @@ from uuid import UUID
 from datetime import datetime
 
 from src.domain.schemas.reminder_entity import Reminder
-from src.ports.driven.repository import ReminderRepository
+from src.ports.driven.reminder_repository import ReminderRepository
 from src.adapters.driven.base_repository import PostgresBaseRepository
 
 
@@ -22,12 +22,12 @@ class PostgresReminderRepository(PostgresBaseRepository, ReminderRepository):
         result = self._execute_single(query, (str(id),))
         return Reminder(**result) if result else None
 
-    def create(self, reminder: Reminder) -> Reminder:
-        result = self._create_entity(self.table, reminder)
+    def create(self, entity: Reminder) -> Reminder:
+        result = self._create_entity(self.table, entity)
         return Reminder(**result)
 
-    def update(self, reminder: Reminder) -> Optional[Reminder]:
-        result = self._update_entity(self.table, reminder)
+    def update(self, entity: Reminder) -> Optional[Reminder]:
+        result = self._update_entity(self.table, entity)
         return Reminder(**result) if result else None
 
     def delete(self, id: UUID) -> bool:

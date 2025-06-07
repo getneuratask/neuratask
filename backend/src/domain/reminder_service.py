@@ -2,8 +2,8 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.reminder_entity import Reminder
-from src.ports.driven.repository import ReminderRepository
-from src.ports.drivers.task_service import ReminderService
+from src.ports.driven.reminder_repository import ReminderRepository
+from src.ports.drivers.reminder_service import ReminderService
 
 
 class ReminderServiceImpl(ReminderService):

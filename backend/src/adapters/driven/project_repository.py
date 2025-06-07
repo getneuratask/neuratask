@@ -2,7 +2,7 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.project_entity import Project
-from src.ports.driven.repository import ProjectRepository
+from src.ports.driven.project_repository import ProjectRepository
 from src.adapters.driven.base_repository import PostgresBaseRepository
 
 
@@ -21,12 +21,12 @@ class PostgresProjectRepository(PostgresBaseRepository, ProjectRepository):
         result = self._execute_single(query, (str(id),))
         return Project(**result) if result else None
 
-    def create(self, project: Project) -> Project:
-        result = self._create_entity(self.table, project)
+    def create(self, entity: Project) -> Project:
+        result = self._create_entity(self.table, entity)
         return Project(**result)
 
-    def update(self, project: Project) -> Optional[Project]:
-        result = self._update_entity(self.table, project)
+    def update(self, entity: Project) -> Optional[Project]:
+        result = self._update_entity(self.table, entity)
         return Project(**result) if result else None
 
     def delete(self, id: UUID) -> bool:

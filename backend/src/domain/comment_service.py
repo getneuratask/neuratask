@@ -3,8 +3,8 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.comment_entity import Comment
-from src.ports.driven.repository import CommentRepository
-from src.ports.drivers.task_service import CommentService
+from src.ports.driven.comment_repository import CommentRepository
+from src.ports.drivers.comment_service import CommentService
 
 
 class CommentServiceImpl(CommentService):

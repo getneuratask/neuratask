@@ -2,7 +2,7 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.comment_entity import Comment
-from src.ports.driven.repository import CommentRepository
+from src.ports.driven.comment_repository import CommentRepository
 from src.adapters.driven.base_repository import PostgresBaseRepository
 
 
@@ -21,12 +21,12 @@ class PostgresCommentRepository(PostgresBaseRepository, CommentRepository):
         result = self._execute_single(query, (str(id),))
         return Comment(**result) if result else None
 
-    def create(self, comment: Comment) -> Comment:
-        result = self._create_entity(self.table, comment)
+    def create(self, entity: Comment) -> Comment:
+        result = self._create_entity(self.table, entity)
         return Comment(**result)
 
-    def update(self, comment: Comment) -> Optional[Comment]:
-        result = self._update_entity(self.table, comment)
+    def update(self, entity: Comment) -> Optional[Comment]:
+        result = self._update_entity(self.table, entity)
         return Comment(**result) if result else None
 
     def delete(self, id: UUID) -> bool:

@@ -2,7 +2,7 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.workspace_entity import Workspace
-from src.ports.driven.repository import WorkspaceRepository
+from src.ports.driven.workspace_repository import WorkspaceRepository
 from src.adapters.driven.base_repository import PostgresBaseRepository
 
 
@@ -21,12 +21,12 @@ class PostgresWorkspaceRepository(PostgresBaseRepository, WorkspaceRepository):
         result = self._execute_single(query, (str(id),))
         return Workspace(**result) if result else None
 
-    def create(self, workspace: Workspace) -> Workspace:
-        result = self._create_entity(self.table, workspace)
+    def create(self, entity: Workspace) -> Workspace:
+        result = self._create_entity(self.table, entity)
         return Workspace(**result)
 
-    def update(self, workspace: Workspace) -> Optional[Workspace]:
-        result = self._update_entity(self.table, workspace)
+    def update(self, entity: Workspace) -> Optional[Workspace]:
+        result = self._update_entity(self.table, entity)
         return Workspace(**result) if result else None
 
     def delete(self, id: UUID) -> bool:

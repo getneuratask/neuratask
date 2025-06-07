@@ -2,7 +2,7 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.label_entity import Label
-from src.ports.driven.repository import LabelRepository
+from src.ports.driven.label_repository import LabelRepository
 from src.adapters.driven.base_repository import PostgresBaseRepository
 
 
@@ -21,12 +21,12 @@ class PostgresLabelRepository(PostgresBaseRepository, LabelRepository):
         result = self._execute_single(query, (str(id),))
         return Label(**result) if result else None
 
-    def create(self, label: Label) -> Label:
-        result = self._create_entity(self.table, label)
+    def create(self, entity: Label) -> Label:
+        result = self._create_entity(self.table, entity)
         return Label(**result)
 
-    def update(self, label: Label) -> Optional[Label]:
-        result = self._update_entity(self.table, label)
+    def update(self, entity: Label) -> Optional[Label]:
+        result = self._update_entity(self.table, entity)
         return Label(**result) if result else None
 
     def delete(self, id: UUID) -> bool:

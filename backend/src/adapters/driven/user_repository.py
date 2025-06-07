@@ -2,7 +2,7 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.user_entity import User
-from src.ports.driven.repository import UserRepository
+from src.ports.driven.user_repository import UserRepository
 from src.adapters.driven.base_repository import PostgresBaseRepository
 
 
@@ -21,12 +21,12 @@ class PostgresUserRepository(PostgresBaseRepository, UserRepository):
         result = self._execute_single(query, (str(id),))
         return User(**result) if result else None
 
-    def create(self, user: User) -> User:
-        result = self._create_entity(self.table, user)
+    def create(self, entity: User) -> User:
+        result = self._create_entity(self.table, entity)
         return User(**result)
 
-    def update(self, user: User) -> Optional[User]:
-        result = self._update_entity(self.table, user)
+    def update(self, entity: User) -> Optional[User]:
+        result = self._update_entity(self.table, entity)
         return User(**result) if result else None
 
     def delete(self, id: UUID) -> bool:

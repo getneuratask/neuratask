@@ -2,7 +2,7 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.activity_log_entity import ActivityLog
-from src.ports.driven.repository import ActivityLogRepository
+from src.ports.driven.activity_log_repository import ActivityLogRepository
 from src.adapters.driven.base_repository import PostgresBaseRepository
 
 
@@ -21,12 +21,12 @@ class PostgresActivityLogRepository(PostgresBaseRepository, ActivityLogRepositor
         result = self._execute_single(query, (str(id),))
         return ActivityLog(**result) if result else None
 
-    def create(self, activity: ActivityLog) -> ActivityLog:
-        result = self._create_entity(self.table, activity)
+    def create(self, entity: ActivityLog) -> ActivityLog:
+        result = self._create_entity(self.table, entity)
         return ActivityLog(**result)
 
-    def update(self, activity: ActivityLog) -> Optional[ActivityLog]:
-        result = self._update_entity(self.table, activity)
+    def update(self, entity: ActivityLog) -> Optional[ActivityLog]:
+        result = self._update_entity(self.table, entity)
         return ActivityLog(**result) if result else None
 
     def delete(self, id: UUID) -> bool:
