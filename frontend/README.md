@@ -1,54 +1,40 @@
-# React + TypeScript + Vite
+# ⚛️ Proyecto React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este es un proyecto base utilizando **React**, **TypeScript** y **Vite** como bundler.  
+Sigue los pasos a continuación para instalar las dependencias y ejecutar el proyecto localmente.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✅ Requisitos Previos
 
-## Expanding the ESLint configuration
+Asegúrate de tener instalado en tu máquina:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- [Node.js](https://nodejs.org/) **v24.0.1**
+- [npm](https://www.npmjs.com/) (viene con Node.js) o [Yarn](https://classic.yarnpkg.com/)
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Verifica que las versiones estén correctas ejecutando:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+```bash
+node -v
+# Debe mostrar: v24.0.1
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+npm -v
+# Debe mostrar una versión compatible (ej. 24.0.1)
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+---
+
+## ✅ instalacicón de dependencias
+
+Moverte a la carpeta frontend en tu terminal (cd /frontend):
+
+- npm install
+#una vez realizada la instalación de dependecias utilizar el comando 
+- npm run dev 
+
+🛠 Comandos disponibles
+
+npm run dev        # Inicia el servidor de desarrollo
+npm run build      # Construye el proyecto para producción
+npm run preview    # Previsualiza el proyecto ya construido
+npm run lint       # Ejecuta el linter (si está configurado)
+npm run test       # Ejecuta los tests (si están configurados)
