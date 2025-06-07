@@ -22,4 +22,4 @@ app.include_router(chatbot_router)
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "service": "ai-services"}
+    return {"status": "healthy", "service": "ai-services", "version": "1.0.0"}

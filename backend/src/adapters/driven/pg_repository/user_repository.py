@@ -2,13 +2,13 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.user_entity import User
-from src.ports.driven.user_repository import UserRepository
-from src.adapters.driven.base_repository import PostgresBaseRepository
+from src.ports.driven.pg_connection.user_repository import UserRepository
+from src.adapters.driven.pg_repository.base_repository import PostgresBaseRepository
 
 
 class PostgresUserRepository(PostgresBaseRepository, UserRepository):
-    def __init__(self, connection_params: dict):
-        super().__init__(connection_params)
+    def __init__(self: dict):
+        super().__init__()
         self.table = "users"
 
     def get_all(self) -> List[User]:

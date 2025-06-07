@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: dockerfile
+    environment:
+      - NEON_TECH_DB_HOST=${NEON_TECH_DB_HOST}
+      - NEON_TECH_DB_NAME=${NEON_TECH_DB_NAME}
+      - NEON_TECH_DB_USER=${NEON_TECH_DB_USER}
+      - NEON_TECH_DB_PASSWORD=${NEON_TECH_DB_PASSWORD}
+      - NEON_TECH_DB_SSL_MODE=${NEON_TECH_DB_SSL_MODE}
+      - PORT=${BACKEND_PORT}
+      - HOST=${BACKEND_HOST}
+      - FLASK_ENV=${FLASK_ENV}
+      - DEBUG=${DEBUG}
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    networks:
+      - neuratask-network
+    volumes:
+      - ./backend:/app
+      - /app/__pycache__
+    restart: unless-stopped
+
+  # IA Services
+  ia-services:
+    build:
+      context: ./ia-services
+      dockerfile: Dockerfile
+    environment:
+      - PORT=${IA_SERVICES_PORT}
+      - HOST=${IA_SERVICES_HOST}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MODEL_NAME=${MODEL_NAME}
+      - DEBUG=${DEBUG}
+    ports:
+      - "${IA_SERVICES_PORT}:${IA_SERVICES_PORT}"
+    networks:
+      - neuratask-network
+    volumes:
+      - ./ia-services:/app
+      - /app/__pycache__
+    restart: unless-stopped
+
+  # Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - VITE_API_URL=${VITE_API_URL}
+    ports:
+      - "${FRONTEND_PORT}:3000"
+    depends_on:
+      - backend
+      - ia-services
+    networks:
+      - neuratask-network
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    restart: unless-stopped
+
+networks:
+  neuratask-network:
+    driver: bridge

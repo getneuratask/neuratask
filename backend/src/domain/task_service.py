@@ -3,7 +3,7 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.task_entity import Task
-from src.ports.driven.task_repository import TaskRepository
+from src.ports.driven.pg_connection.task_repository import TaskRepository
 from src.ports.drivers.task_service import TaskService
 
 

@@ -3,7 +3,7 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.comment_entity import Comment
-from src.ports.driven.comment_repository import CommentRepository
+from src.ports.driven.pg_connection.comment_repository import CommentRepository
 from src.ports.drivers.comment_service import CommentService
 
 

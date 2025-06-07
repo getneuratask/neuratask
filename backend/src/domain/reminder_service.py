@@ -2,7 +2,7 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.reminder_entity import Reminder
-from src.ports.driven.reminder_repository import ReminderRepository
+from src.ports.driven.pg_connection.reminder_repository import ReminderRepository
 from src.ports.drivers.reminder_service import ReminderService
 
 

@@ -3,10 +3,20 @@ from uuid import UUID
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel
+import os
 
 class PostgresBaseRepository:
-    def __init__(self, connection_params: dict):
-        self.connection_params = connection_params
+
+    
+    def __init__(self):
+        self.connection_params = {
+            'host': os.getenv('NEON_TECH_DB_HOST'),
+            'database': os.getenv('NEON_TECH_DB_NAME'),
+            'user': os.getenv('NEON_TECH_DB_USER'),
+            'password': os.getenv('NEON_TECH_DB_PASSWORD'),  # Esta es la clave
+            'port': os.getenv('NEON_TECH_DB_PORT'),
+            'sslmode': os.getenv('NEON_TECH_DB_SSL_MODE')
+        }
         
     def _get_connection(self):
         return psycopg2.connect(**self.connection_params)

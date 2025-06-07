@@ -2,8 +2,8 @@ from typing import Dict, List, Optional
 from uuid import UUID
 
 from src.domain.schemas.task_entity import Task
-from src.ports.driven.task_repository import TaskRepository
-from src.adapters.driven.base_repository import PostgresBaseRepository
+from src.ports.driven.pg_connection.task_repository import TaskRepository
+from src.adapters.driven.pg_repository.base_repository import PostgresBaseRepository
 
 
 class InMemoryTaskRepository(TaskRepository):
@@ -45,8 +45,8 @@ class InMemoryTaskRepository(TaskRepository):
 
 
 class PostgresTaskRepository(PostgresBaseRepository, TaskRepository):
-    def __init__(self, connection_params: dict):
-        super().__init__(connection_params)
+    def __init__(self: dict):
+        super().__init__()
         self.table = "tasks"
 
     def get_all(self) -> List[Task]:

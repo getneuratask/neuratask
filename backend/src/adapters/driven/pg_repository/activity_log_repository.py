@@ -2,13 +2,13 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.activity_log_entity import ActivityLog
-from src.ports.driven.activity_log_repository import ActivityLogRepository
-from src.adapters.driven.base_repository import PostgresBaseRepository
+from src.ports.driven.pg_connection.activity_log_repository import ActivityLogRepository
+from src.adapters.driven.pg_repository.base_repository import PostgresBaseRepository
 
 
 class PostgresActivityLogRepository(PostgresBaseRepository, ActivityLogRepository):
-    def __init__(self, connection_params: dict):
-        super().__init__(connection_params)
+    def __init__(self: dict):
+        super().__init__()
         self.table = "activity_log"
 
     def get_all(self) -> List[ActivityLog]:

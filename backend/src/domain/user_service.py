@@ -3,7 +3,7 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.user_entity import User
-from src.ports.driven.user_repository import UserRepository
+from src.ports.driven.pg_connection.user_repository import UserRepository
 from src.ports.drivers.user_service import UserService
 
 

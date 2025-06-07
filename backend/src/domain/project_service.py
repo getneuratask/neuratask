@@ -3,7 +3,7 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.project_entity import Project
-from src.ports.driven.project_repository import ProjectRepository
+from src.ports.driven.pg_connection.project_repository import ProjectRepository
 from src.ports.drivers.project_service import ProjectService
 
 

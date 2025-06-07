@@ -2,7 +2,7 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.activity_log_entity import ActivityLog
-from src.ports.driven.activity_log_repository import ActivityLogRepository
+from src.ports.driven.pg_connection.activity_log_repository import ActivityLogRepository
 from src.ports.drivers.activity_log_service import ActivityLogService
 
 

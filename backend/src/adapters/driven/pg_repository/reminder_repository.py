@@ -3,13 +3,13 @@ from uuid import UUID
 from datetime import datetime
 
 from src.domain.schemas.reminder_entity import Reminder
-from src.ports.driven.reminder_repository import ReminderRepository
-from src.adapters.driven.base_repository import PostgresBaseRepository
+from src.ports.driven.pg_connection.reminder_repository import ReminderRepository
+from src.adapters.driven.pg_repository.base_repository import PostgresBaseRepository
 
 
 class PostgresReminderRepository(PostgresBaseRepository, ReminderRepository):
-    def __init__(self, connection_params: dict):
-        super().__init__(connection_params)
+    def __init__(self: dict):
+        super().__init__()
         self.table = "reminders"
 
     def get_all(self) -> List[Reminder]:

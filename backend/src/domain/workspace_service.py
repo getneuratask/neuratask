@@ -2,7 +2,7 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.workspace_entity import Workspace
-from src.ports.driven.workspace_repository import WorkspaceRepository
+from src.ports.driven.pg_connection.workspace_repository import WorkspaceRepository
 from src.ports.drivers.workspace_service import WorkspaceService
 
 

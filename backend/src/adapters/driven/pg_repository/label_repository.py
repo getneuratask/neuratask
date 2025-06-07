@@ -2,13 +2,13 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.label_entity import Label
-from src.ports.driven.label_repository import LabelRepository
-from src.adapters.driven.base_repository import PostgresBaseRepository
+from src.ports.driven.pg_connection.label_repository import LabelRepository
+from src.adapters.driven.pg_repository.base_repository import PostgresBaseRepository
 
 
 class PostgresLabelRepository(PostgresBaseRepository, LabelRepository):
-    def __init__(self, connection_params: dict):
-        super().__init__(connection_params)
+    def __init__(self: dict):
+        super().__init__()
         self.table = "labels"
 
     def get_all(self) -> List[Label]:

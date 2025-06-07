@@ -3,7 +3,7 @@ from typing import List, Optional
 from uuid import UUID
 
 from src.domain.schemas.label_entity import Label
-from src.ports.driven.label_repository import LabelRepository
+from src.ports.driven.pg_connection.label_repository import LabelRepository
 from src.ports.drivers.label_service import LabelService
 
 
