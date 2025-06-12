@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { AxiosResponse, AxiosError } from 'axios';
+import type { AxiosResponse } from 'axios';
 
 // Variables de entorno para Vite (VITE_ prefix)
 const API_BASE_URL = 'http://localhost:8000/api/v1';
@@ -190,13 +190,14 @@ export const api = {
     create: (projectData: Partial<Project>): Promise<AxiosResponse<Project>> => api.post<Project>('/projects', projectData),
     update: (id: string | number, projectData: Partial<Project>): Promise<AxiosResponse<Project>> => api.update<Project>(`/projects/${id}`, projectData),
     delete: (id: string | number): Promise<AxiosResponse<void>> => api.delete<void>(`/projects/${id}`),
-    getTasks: (id: string | number): Promise<AxiosResponse<Task[]>> => api.get<Task[]>(`/projects/${id}/tasks`),
+    getTasks: (id: string | number): Promise<AxiosResponse<Task[]>> => api.get<Task[]>(`/workspaces/${id}/tasks`),
   },
 
   // Tasks
   tasks: {
     getAll: (): Promise<AxiosResponse<Task[]>> => api.get<Task[]>('/tasks'),
     getById: (id: string | number): Promise<AxiosResponse<Task>> => api.get<Task>(`/tasks/${id}`),
+    getByProject: (projectId: string | number): Promise<AxiosResponse<Task[]>> => api.get<Task[]>(`/tasks/project/${projectId}`),
     create: (taskData: Partial<Task>): Promise<AxiosResponse<Task>> => api.post<Task>('/tasks', taskData),
     update: (id: string | number, taskData: Partial<Task>): Promise<AxiosResponse<Task>> => api.update<Task>(`/tasks/${id}`, taskData),
     delete: (id: string | number): Promise<AxiosResponse<void>> => api.delete<void>(`/tasks/${id}`),
@@ -249,78 +250,89 @@ export const api = {
 
 // Interfaces para tipos de datos
 export interface User {
-  id: number;
+  id: string;
+  auth0_sub: string;
   name: string;
-  email: string;
+  email?: string;
+  avatar_url?: string;
   created_at?: string;
   updated_at?: string;
 }
 
 export interface Workspace {
-  id: number;
+  id: string;
+  owner_id?: string;
   name: string;
-  description?: string;
   created_at?: string;
-  updated_at?: string;
 }
 
 export interface Project {
-  id: number;
+  id: string;
+  workspace_id?: string;
   name: string;
-  description?: string;
-  workspace_id: number;
+  color?: string;
+  sort_order?: number;
+  is_archived?: boolean;
   created_at?: string;
   updated_at?: string;
 }
 
 export interface Task {
-  id: number;
+  id: string;
+  project_id?: string;
+  parent_task_id?: string;
   title: string;
   description?: string;
-  status: string;
-  priority?: string;
-  project_id: number;
-  assigned_user_id?: number;
+  status?: 'TODO' | 'DOING' | 'DONE';
+  priority?: number; // 1-4 where 1 is highest priority
+  due_date?: string;
+  start_date?: string;
+  completed_at?: string;
+  created_by?: string;
+  assigned_to?: string;
+  is_recurring?: boolean;
+  recurrence_rule?: string;
   created_at?: string;
   updated_at?: string;
 }
 
 export interface Comment {
-  id: number;
-  content: string;
-  task_id: number;
-  user_id: number;
+  id: string;
+  task_id?: string;
+  author_id?: string;
+  body: string;
   created_at?: string;
-  updated_at?: string;
+  edited_at?: string;
 }
 
 export interface Label {
-  id: number;
+  id: string;
+  workspace_id?: string;
   name: string;
   color?: string;
-  created_at?: string;
-  updated_at?: string;
 }
 
 export interface Reminder {
-  id: number;
-  title: string;
-  description?: string;
-  reminder_time: string;
-  task_id: number;
-  user_id: number;
-  created_at?: string;
-  updated_at?: string;
+  id: string;
+  task_id?: string;
+  user_id?: string;
+  remind_at: string;
+  channel?: 'PUSH' | 'EMAIL' | 'WEB';
 }
 
 export interface ActivityLog {
-  id: number;
-  action: string;
+  id: string;
   entity_type: string;
-  entity_id: number;
-  user_id: number;
-  details?: string;
+  entity_id: string;
+  action: string;
+  actor_id?: string;
+  payload?: any;
   created_at?: string;
+}
+
+export interface TaskLabel {
+  task_id: string;
+  label_id: string;
 }
 
 export interface ChatbotResponse {
