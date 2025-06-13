@@ -1,28 +1,39 @@
-annotated-types==0.7.0
-anyio==3.7.1
-certifi==2025.4.26
-charset-normalizer==3.4.2
-click==8.1.8
-dnspython==2.7.0
-dotenv==0.9.9
-email_validator==2.2.0
-Faker==37.1.0
+# Core dependencies for IA Services API
 fastapi==0.104.1
-h11==0.16.0
-idna==3.10
-psycopg2==2.9.10
-psycopg2-binary==2.9.10
+uvicorn[standard]==0.24.0
 pydantic==2.4.2
 pydantic-extra-types==2.1.0
-pydantic_core==2.10.1
-python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 requests==2.32.3
-six==1.17.0
-sniffio==1.3.1
-starlette==0.27.0
+
+# OpenRouter and IA dependencies
+openai  # For compatibility if needed
+anthropic  # For compatibility if needed
+
+# Development and testing
+pytest==7.4.0
+pytest-asyncio==0.21.0
+httpx==0.24.1  # For testing async endpoints
+
+# Utilities
+python-dateutil==2.9.0.post0
 typing_extensions==4.13.2
-tzdata==2025.2
-urllib3==2.4.0
-uvicorn==0.23.2
-requests==2.32.3
+
+# System dependencies - letting pip resolve versions to avoid conflicts
+certifi>=2025.4.26
+charset-normalizer>=3.4.0
+idna>=3.10
+urllib3>=2.4.0
+anyio>=3.7.1
+sniffio>=1.3.1
+click>=8.1.8
+# h11 version removed to let httpcore choose compatible version
+starlette>=0.27.0
+annotated-types>=0.7.0
+pydantic_core>=2.10.1
+
+# Optional: Database support (if needed later)
+# psycopg2-binary==2.9.10
+
+# Optional: Additional utilities
+# Faker==37.1.0
