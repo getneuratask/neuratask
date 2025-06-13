@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  ia-services:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: neuratask-ia-services
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - DEBUG=true
+      - PYTHONPATH=/app
+    volumes:
+      # Mount API keys file if it exists
+      - ./.apikeys:/app/.apikeys:ro
+      # Mount source code for development (optional, comment out for production)
+      - ./src:/app/src
+      - ./utils:/app/utils
+    networks:
+      - neuratask-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  neuratask-network:
+    driver: bridge
+    external: true
