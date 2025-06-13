@@ -1,89 +1,52 @@
+// layouts/AppLayout.tsx
 import React, { useState } from "react";
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined, ProjectOutlined } from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Layout, Breadcrumb, theme } from "antd";
+import { Outlet, useLocation } from "react-router-dom";
+import { Sidebar, Navbar } from "@/shared/components/molecules";
 
-const { Header, Content, Footer, Sider } = Layout;
-
-type MenuItem = Required<MenuProps>["items"][number];
-
-function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode, children?: MenuItem[]): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  } as MenuItem;
-}
+const { Content, Footer } = Layout;
 
 const AppLayout: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
-  
+  const [isMobile, setIsMobile] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const items: MenuItem[] = [
-    getItem("Dashboard", "/", <PieChartOutlined />),
-    getItem("Kanban Board", "/kanban", <ProjectOutlined />),
-    getItem("Proyectos", "projects", <DesktopOutlined />),
-    getItem("Usuarios", "sub1", <UserOutlined />, [
-      getItem("Lista", "users"), 
-      getItem("Perfil", "profile")
-    ]),
-    getItem("Equipos", "sub2", <TeamOutlined />, [
-      getItem("Mi Equipo", "my-team"), 
-      getItem("Todos los Equipos", "all-teams")
-    ]),
-    getItem("Archivos", "files", <FileOutlined />),
-  ];
+  const location = useLocation();
 
-  const handleMenuClick = (e: any) => {
-    if (e.key.startsWith('/')) {
-      navigate(e.key);
-    }
-  };
-
-  const getCurrentSelectedKeys = () => {
-    return [location.pathname];
+  const getBreadcrumbTitle = () => {
+    const path = location.pathname;
+    if (path === "/") return "Dashboard";
+    return path
+      .slice(1)
+      .replace(/-/g, " ")
+      .replace(/^\w/, (c) => c.toUpperCase());
   };
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
-      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-        <div className="demo-logo-vertical p-4 text-center">
-          <h2 className="text-white font-bold">NeuraTask</h2>
-        </div>
-        <Menu 
-          theme="dark" 
-          selectedKeys={getCurrentSelectedKeys()} 
-          mode="inline" 
-          items={items}
-          onClick={handleMenuClick}
-        />
-      </Sider>
+    <Layout style={{ minHeight: "100h" }}>
+      <Sidebar isMobile={isMobile} setIsMobile={setIsMobile} />
+
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
-        <Content style={{ margin: "0 16px" }}>
-          <Breadcrumb style={{ margin: "16px 0" }} items={[
-            { title: "NeuraTask" }, 
-            { title: location.pathname === "/" ? "Dashboard" : location.pathname.replace("/", "") }
-          ]} />
+        <Navbar isMobile={isMobile} colorBgContainer={colorBgContainer} />
+
+        <Content style={{ margin: "24px 16px 0" }}>
+          <Breadcrumb style={{ margin: "16px 0" }} items={[{ title: "NeuraTask" }, { title: getBreadcrumbTitle() }]} />
           <div
             style={{
-                padding: 24,
-                minHeight: 360,
-                background: colorBgContainer,
-                borderRadius: borderRadiusLG,
+              padding: 24,
+              minHeight: 360,
+              background: colorBgContainer,
+              borderRadius: borderRadiusLG,
             }}
           >
             <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>NeuraTask ©{new Date().getFullYear()} Created by NeuraTask Corp</Footer>
+
+        <Footer style={{ textAlign: "center", position: "sticky" }}>
+          NeuraTask ©{new Date().getFullYear()} Created by NeuraTask Corp
+        </Footer>
       </Layout>
     </Layout>
   );

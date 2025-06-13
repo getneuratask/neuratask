@@ -12,9 +12,3 @@
 ::-webkit-scrollbar-track {
   @apply bg-gray-200 rounded dark:bg-gray-700;
 }
-/* ::-webkit-scrollbar-thumb {
-  @apply bg-secondary-500/30 transition-all rounded dark:bg-secondary-500;
-}
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-secondary-500/40 dark:bg-secondary-500;
-} */
