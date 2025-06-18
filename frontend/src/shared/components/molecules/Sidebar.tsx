@@ -26,6 +26,7 @@ const Sidebar: React.FC<{ isMobile: boolean; setIsMobile: (val: boolean) => void
     scrollbarWidth: "thin",
     scrollbarGutter: "stable",
   };
+
   const handleMenuClick = ({ key }: { key: string }) => {
     if (key.startsWith("/")) {
       navigate(key);

@@ -7,12 +7,12 @@ import { Sidebar, Navbar } from "@/shared/components/molecules";
 const { Content, Footer } = Layout;
 
 const AppLayout: React.FC = () => {
+  const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-
-  const location = useLocation();
 
   const getBreadcrumbTitle = () => {
     const path = location.pathname;
@@ -24,13 +24,13 @@ const AppLayout: React.FC = () => {
   };
 
   return (
-    <Layout style={{ minHeight: "100h" }}>
+    <Layout className="h-screen">
       <Sidebar isMobile={isMobile} setIsMobile={setIsMobile} />
 
       <Layout>
         <Navbar isMobile={isMobile} colorBgContainer={colorBgContainer} />
 
-        <Content style={{ margin: "24px 16px 0" }}>
+        <Content className="p-4 overflow-y-auto bg-gray-100 dark:bg-black-800">
           <Breadcrumb style={{ margin: "16px 0" }} items={[{ title: "NeuraTask" }, { title: getBreadcrumbTitle() }]} />
           <div
             style={{
@@ -44,9 +44,7 @@ const AppLayout: React.FC = () => {
           </div>
         </Content>
 
-        <Footer style={{ textAlign: "center", position: "sticky" }}>
-          NeuraTask ©{new Date().getFullYear()} Created by NeuraTask Corp
-        </Footer>
+        <Footer style={{ textAlign: "center" }}>NeuraTask ©{new Date().getFullYear()} Created by NeuraTask Corp</Footer>
       </Layout>
     </Layout>
   );

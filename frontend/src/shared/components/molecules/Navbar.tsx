@@ -34,12 +34,17 @@ const Navbar: React.FC<{ isMobile: boolean; colorBgContainer: string }> = ({ isM
       } bg-gray-200 dark:bg-black-900 shadow-md z-10`}
     >
       {isMobile && collapsed && (
-        <Button icon={<MenuOutlined />} type="text" onClick={() => dispatch(openSidebar(false))} className="text-xl" />
+        <Button
+          icon={<MenuOutlined />}
+          type="text"
+          onClick={() => dispatch(openSidebar(false))}
+          className="text-xl ml-5"
+        />
       )}
       <Space>
         <div className="flex flex-col items-start"></div>
         <Tooltip placement="bottom" title="Cerrar sesión" arrow={true}>
-          <Button shape="circle" type="text" icon={<LogoutOutlined />} onClick={logout} />
+          <Button className="mr-5" shape="circle" type="text" icon={<LogoutOutlined />} onClick={logout} />
         </Tooltip>
       </Space>
     </Header>
