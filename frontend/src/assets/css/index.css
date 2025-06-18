@@ -12,3 +12,19 @@
 ::-webkit-scrollbar-track {
   @apply bg-gray-200 rounded dark:bg-gray-700;
 }
+::-webkit-scrollbar-thumb {
+  @apply bg-secondary-500/30 transition-all rounded dark:bg-secondary-500;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-secondary-500/40 dark:bg-secondary-500;
+}
+
+.ant-table-pagination .ant-select .ant-select-show-search {
+  display: block;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.ant-table-pagination .ant-select-show-search .ant-select-selection-search {
+  display: none;
+}

@@ -47,29 +47,36 @@ const Sidebar: React.FC<{ isMobile: boolean; setIsMobile: (val: boolean) => void
   }, [collapsed, isMobile]);
 
   return (
-    <Sider
-      style={siderStyle}
-      ref={siderRef}
-      collapsedWidth={0}
-      collapsed={collapsed}
-      breakpoint="lg"
-      trigger={null}
-      onBreakpoint={(broken) => {
-        setIsMobile(broken);
-        dispatch(openSidebar(broken));
-      }}
-    >
-      <div className="demo-logo-vertical p-4 text-center">
-        <h2 className="text-white font-bold">NeuraTask</h2>
-      </div>
-      <Menu
-        theme="dark"
-        mode="inline"
-        selectedKeys={[location.pathname]}
-        onClick={handleMenuClick}
-        items={sidebarItems}
+    <>
+      <div
+        className={`absolute z-40 w-screen h-screen bg-black-900/60 ${collapsed ? "hidden" : "block md:hidden"}`}
+        onClick={() => dispatch(openSidebar(!collapsed))}
       />
-    </Sider>
+      <Sider
+        style={siderStyle}
+        ref={siderRef}
+        collapsedWidth={0}
+        collapsed={collapsed}
+        className="absolute bg-primary-500 dark:bg-black-900 z-50 h-screen md:relative"
+        breakpoint="lg"
+        trigger={null}
+        onBreakpoint={(broken) => {
+          setIsMobile(broken);
+          dispatch(openSidebar(broken));
+        }}
+      >
+        <div className="demo-logo-vertical p-4 text-center">
+          <h2 className="text-white font-bold">NeuraTask</h2>
+        </div>
+        <Menu
+          theme="dark"
+          mode="inline"
+          selectedKeys={[location.pathname]}
+          onClick={handleMenuClick}
+          items={sidebarItems}
+        />
+      </Sider>
+    </>
   );
 };
 
